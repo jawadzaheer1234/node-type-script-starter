@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",                      
+    "baseUrl": "./src",
+    "paths": {
+      "~/models": ["./models"],
+      "~/routes": ["./routes"],
+      "~/middleware": ["./middleware"],
+      "~/controllers": ["./controllers"],
+      "~/utils": ["./utils"],
+      "~/data": ["./data"],
+      "~/types": ["./types"],
+      "~/express": ["./@types"]
+    },                              
+    "outDir": "./build",
+    "resolveJsonModule": true,                           
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "exclude": ["node_modules"]
+}
