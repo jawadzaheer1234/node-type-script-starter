@@ -1,5 +1,5 @@
 import { Model, Optional } from "sequelize";
-import { DatabaseSchemas } from ".";
+import { DatabaseSchemas } from "~/types";
 //User model
 interface UserAttributes {
   id: number;
@@ -8,7 +8,6 @@ interface UserAttributes {
   email: string;
   password: string;
 }
-
 interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
 
 export class User

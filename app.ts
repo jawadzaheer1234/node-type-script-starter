@@ -57,6 +57,7 @@ const options = {
   apis: ["./src/controllers/**/**.ts"],
 };
 const swaggerSpec = swaggerJSDoc(options);
+
 app.use("/docs", serve, setup(swaggerSpec));
 
 // Setting up 404 handling
