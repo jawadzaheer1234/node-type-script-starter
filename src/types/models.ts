@@ -1,5 +1,5 @@
-import { Optional, Dialect } from "sequelize";
-
+import { Dialect } from "sequelize";
+import { User } from "~/types";
 //Connection String
 export interface DatabaseConfig {
   database: string;
@@ -8,14 +8,10 @@ export interface DatabaseConfig {
   password: string;
   dialect: Dialect;
 }
-//User model
-export interface UserAttributes {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
+
+// export database schema
+export interface DatabaseSchemas {
+  User: typeof User;
 }
 
-export interface UserCreationAttributes
-  extends Optional<UserAttributes, "id"> {}
+export type DatabaseSchemaNames = keyof DatabaseSchemas;
