@@ -12,7 +12,20 @@
     "prettify": "prettier --write *.{ts,tsx}",
     "type-check": "tsc --noEmit",
     "migrate": "sequelize-cli db:migrate",
-    "build": "tsc"
+    "build": "tsc",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint",
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn type-check && lint-staged"
+    }
   },
   "author": "Jawad Zaheer",
   "license": "ISC",
@@ -23,6 +36,7 @@
     "@types/swagger-ui-express": "^4.1.3",
     "@types/validator": "^13.7.0",
     "eslint": "^8.3.0",
+    "husky": "^7.0.4",
     "prettier": "^2.4.1",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.5.2"
