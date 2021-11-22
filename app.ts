@@ -30,7 +30,9 @@ const connect = async () => {
     console.error("Unable to connect to the database:", error);
   }
 };
+
 connect();
+
 //Setting up swagger docs
 import swaggerJSDoc from "swagger-jsdoc";
 import { serve, setup } from "swagger-ui-express";
