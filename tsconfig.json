@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
     "target": "es2016",
-    "module": "commonjs",                      
+    "module": "commonjs",
     "baseUrl": "./src",
     "paths": {
       "~/models": ["./models"],
-      "~/config": ["../db/config/database.ts"],
       "~/routes": ["./routes"],
       "~/middleware": ["./middleware"],
       "~/controllers": ["./controllers"],
@@ -13,9 +12,10 @@
       "~/data": ["./data"],
       "~/types": ["./types"],
       "~/express": ["./@types"]
-    },                              
+    },
     "outDir": "./build",
-    "resolveJsonModule": true,                           
+    "resolveJsonModule": true,
+    "allowJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
