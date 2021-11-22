@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2016",
-    "module": "commonjs",                      
+    "module": "commonjs",
     "baseUrl": "./src",
     "paths": {
       "~/models": ["./models"],
@@ -12,9 +12,10 @@
       "~/data": ["./data"],
       "~/types": ["./types"],
       "~/express": ["./@types"]
-    },                              
+    },
     "outDir": "./build",
-    "resolveJsonModule": true,                           
+    "resolveJsonModule": true,
+    "allowJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
