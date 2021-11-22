@@ -21,6 +21,7 @@ const app: Application = express();
 const port = process.env.PORT || 3000;
 // connecting to database
 import { sequelize } from "~/models";
+
 const connect = async () => {
   try {
     await sequelize.authenticate();
