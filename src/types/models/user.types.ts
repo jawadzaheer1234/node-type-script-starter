@@ -1,5 +1,6 @@
-import { Model, Optional } from "sequelize";
-import { DatabaseSchemas } from "~/types";
+import { Optional } from "sequelize";
+import { DatabaseSchemas, Model } from "~/types";
+
 //User model
 interface UserAttributes {
   id: number;
@@ -19,6 +20,4 @@ export class User
   public lastName!: string;
   public email!: string;
   public password!: string;
-  // Define associations to run for the model in index.ts
-  public static associate(_: DatabaseSchemas) {}
 }
