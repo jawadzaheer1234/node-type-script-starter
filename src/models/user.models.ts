@@ -1,7 +1,9 @@
 "use strict";
 
 import { Sequelize, DataTypes } from "sequelize";
+import { generateHash } from "~/utils";
 import { User } from "~/types";
+import { userInfo } from "os";
 
 export default (sequelize: Sequelize) => {
   User.init(
@@ -13,16 +15,66 @@ export default (sequelize: Sequelize) => {
       },
       firstName: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Please enter your first name.",
+          },
+        },
       },
-      lastName: DataTypes.STRING,
-      email: { type: DataTypes.STRING, allowNull: false, unique: true },
-      password: { type: DataTypes.STRING, allowNull: false },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Please enter your last name.",
+          },
+        },
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Please enter your email.",
+          },
+          isEmail: {
+            msg: "Enter a valid email format.",
+          },
+        },
+        unique: {
+          msg: "Email already exists.",
+          name: "email",
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        get() {
+          return undefined;
+        },
+        validate: {
+          min: {
+            msg: "Password length must be atleast 6 characters.",
+            args: [6],
+          },
+          notNull: {
+            msg: "Please enter your password.",
+          },
+        },
+      },
     },
     {
+      hooks: {
+        async beforeCreate(user) {
+          const { password } = user;
+          user.password = await generateHash(password || "");
+        },
+      },
       sequelize,
       modelName: "User",
     }
   );
+
   return User;
 };

@@ -1,14 +1,14 @@
-import { Optional } from "sequelize";
-import { DatabaseSchemas, Model } from "~/types";
-
+import { Optional, Model } from "sequelize";
+import { DatabaseSchemas } from "~/types";
 //User model
-interface UserAttributes {
+export interface UserAttributes {
   id: number;
   firstName: string;
   lastName: string;
   email: string;
   password: string;
 }
+
 interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
 
 export class User
@@ -20,4 +20,5 @@ export class User
   public lastName!: string;
   public email!: string;
   public password!: string;
+  public static associate(_: DatabaseSchemas) {}
 }

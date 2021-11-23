@@ -19,6 +19,11 @@ import express, { Application, Response } from "express";
 
 const app: Application = express();
 const port = process.env.PORT || 3000;
+
+// Body Parser
+import { json, urlencoded } from "body-parser";
+app.use(json()); // support json encoded bodies
+app.use(urlencoded({ extended: true })); // support encoded bodies
 // connecting to database
 import { sequelize } from "~/models";
 
@@ -58,8 +63,9 @@ const options = {
 };
 const swaggerSpec = swaggerJSDoc(options);
 
+import { userRouter } from "~/routes";
 app.use("/docs", serve, setup(swaggerSpec));
-
+app.use("/users", userRouter);
 // Setting up 404 handling
 app.use((_, response: Response) => {
   return response.status(200).jsonp({
