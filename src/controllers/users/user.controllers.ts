@@ -14,3 +14,18 @@ export const addUser = async (
     return response.status(500).json(error);
   }
 };
+
+export const getUser = async (request: Request, response: Response) => {
+  try {
+    const { id } = request.params;
+    const retrievedUser = await models.User.findByPk(Number(id), {
+      include: { model: models.Task, separate: true },
+    });
+    if (!retrievedUser) {
+      return response.status(404).jsonp({ message: "User not found " });
+    }
+    return response.status(200).json({ retrievedUser });
+  } catch (error) {
+    return response.status(500).json(error);
+  }
+};

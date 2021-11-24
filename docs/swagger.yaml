@@ -46,6 +46,21 @@ paths:
         500:
           description: Internal Server Error
 
+  /users/{id}:
+    get:
+      summary: Gets a user by ID.
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          type: integer
+          required: true
+      responses:
+        200:
+          description: OK
+
   /tasks/:
     post:
       tags:

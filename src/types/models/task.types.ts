@@ -31,6 +31,6 @@ export class Task
    */
   public static associate(models: DatabaseSchemas) {
     const { Task, User } = models;
-    Task.hasOne(User, { sourceKey: "userId" });
+    Task.belongsTo(User, { foreignKey: "userId" });
   }
 }

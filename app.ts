@@ -37,6 +37,7 @@ const swaggerConfig: SwaggerExpress.Config = {
 SwaggerExpress.create(swaggerConfig, (err, middleware) => {
   if (err) {
     console.log({ err });
+
     throw err; // or handle error
   }
 
