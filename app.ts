@@ -15,6 +15,7 @@ register({
 });
 
 //Setting up express
+
 import express, { Application, Response } from "express";
 
 const app: Application = express();
@@ -24,9 +25,41 @@ const port = process.env.PORT || 3000;
 import { json, urlencoded } from "body-parser";
 app.use(json()); // support json encoded bodies
 app.use(urlencoded({ extended: true })); // support encoded bodies
+
+//Swagger Express Middleware
+import * as SwaggerExpress from "swagger-express-mw";
+const swaggerConfig: SwaggerExpress.Config = {
+  appRoot: __dirname,
+  validateResponse: true,
+  swaggerFile: `${__dirname}/docs/swagger.yaml`,
+};
+
+SwaggerExpress.create(swaggerConfig, (err, middleware) => {
+  if (err) {
+    console.log({ err });
+    throw err; // or handle error
+  }
+
+  middleware.register(app);
+  // install response validation listener (this will only be called if there actually are any errors or warnings)
+  middleware.runner.on(
+    "responseValidationError",
+    function (validationResponse, request, response) {
+      // log your validationResponse here...
+      console.error(validationResponse.errors);
+    }
+  );
+
+  const port = process.env.PORT || 10010;
+
+  app.listen(port, () => {
+    // eslint-disable-next-line no-console
+    console.log(`App started on port ${port}!`);
+  });
+});
+
 // connecting to database
 import { sequelize } from "~/models";
-
 const connect = async () => {
   try {
     await sequelize.authenticate();
@@ -39,41 +72,16 @@ const connect = async () => {
 connect();
 
 //Setting up swagger docs
-import swaggerJSDoc from "swagger-jsdoc";
 import { serve, setup } from "swagger-ui-express";
-const swaggerDefinition = {
-  openapi: "3.0.0",
-  info: {
-    title: "Typescript node starter",
-    version: "1.0.0",
-  },
-  components: {
-    securitySchemes: {
-      bearerAuth: {
-        type: "http",
-        scheme: "bearer",
-        bearerFormat: "JWT",
-      },
-    },
-  },
-};
-const options = {
-  swaggerDefinition,
-  apis: ["./src/controllers/**/**.ts"],
-};
-const swaggerSpec = swaggerJSDoc(options);
-
-import { userRouter } from "~/routes";
-app.use("/docs", serve, setup(swaggerSpec));
-app.use("/users", userRouter);
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./docs/swagger.yaml");
+import { userRouter, taskRouter } from "~/routes";
+app.use("/docs", serve, setup(swaggerDocument));
+app.use("/api/users", userRouter);
+app.use("/api/tasks", taskRouter);
 // Setting up 404 handling
 app.use((_, response: Response) => {
   return response.status(200).jsonp({
     message: "Node starter apis",
   });
-});
-
-app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`App started on port ${port}!`);
 });

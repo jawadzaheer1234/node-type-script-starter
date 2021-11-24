@@ -20,5 +20,8 @@ export class User
   public lastName!: string;
   public email!: string;
   public password!: string;
-  public static associate(_: DatabaseSchemas) {}
+  public static associate(models: DatabaseSchemas) {
+    const { User, Task } = models;
+    User.hasMany(Task, { foreignKey: "userId" });
+  }
 }

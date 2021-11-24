@@ -3,7 +3,6 @@
 import { Sequelize, DataTypes } from "sequelize";
 import { generateHash } from "~/utils";
 import { User } from "~/types";
-import { userInfo } from "os";
 
 export default (sequelize: Sequelize) => {
   User.init(

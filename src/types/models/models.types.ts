@@ -1,5 +1,5 @@
 import { Dialect } from "sequelize";
-import { User } from "~/types";
+import { User, Task } from "~/types";
 
 //Connection String
 export interface DatabaseConfig {
@@ -13,6 +13,7 @@ export interface DatabaseConfig {
 // export database schema
 export interface DatabaseSchemas {
   User: typeof User;
+  Task: typeof Task;
 }
 
 export type DatabaseSchemaNames = keyof DatabaseSchemas;
