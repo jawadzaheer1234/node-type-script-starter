@@ -9,10 +9,12 @@ schemes:
   - http
 paths:
   /users/:
+    x-swagger-router-controller: users
     post:
       tags:
         - Users
       summary: Register A New Account
+      operationId: addUser
       consumes:
         - application/json
       produces:
@@ -46,26 +48,13 @@ paths:
         500:
           description: Internal Server Error
 
-  /users/{id}:
-    get:
-      summary: Gets a user by ID.
-      tags:
-        - Users
-      parameters:
-        - name: id
-          in: path
-          description: User ID
-          type: integer
-          required: true
-      responses:
-        200:
-          description: OK
-
   /tasks/:
+    x-swagger-router-controller: tasks
     post:
       tags:
         - Tasks
       summary: Register A New Task
+      operationId: addTask
       consumes:
         - application/json
       produces:
@@ -95,3 +84,38 @@ paths:
           description: Forbidden
         500:
           description: Internal Server Error
+  /docs:
+    x-swagger-pipe: swagger_raw
+
+  /users/{id}:
+    x-swagger-router-controller: users
+    get:
+      summary: Gets a user by ID.
+      operationId: getUser
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          type: integer
+          required: true
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal Error
+          schema:
+            required:
+              - message
+            properties:
+              message:
+                type: string
+        default:
+          description: Error
+          schema:
+            required:
+              - message
+            properties:
+              message:
+                type: string

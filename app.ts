@@ -7,8 +7,7 @@ import { compilerOptions } from "./tsconfig.json";
 import { join } from "path";
 
 //Setting up absolute paths
-const baseUrl = join(__dirname, "src");
-
+const baseUrl = join(__dirname, "api");
 register({
   baseUrl,
   paths: compilerOptions.paths,
@@ -19,7 +18,6 @@ register({
 import express, { Application, Response } from "express";
 
 const app: Application = express();
-const port = process.env.PORT || 3000;
 
 // Body Parser
 import { json, urlencoded } from "body-parser";
@@ -30,8 +28,6 @@ app.use(urlencoded({ extended: true })); // support encoded bodies
 import * as SwaggerExpress from "swagger-express-mw";
 const swaggerConfig: SwaggerExpress.Config = {
   appRoot: __dirname,
-  validateResponse: true,
-  swaggerFile: `${__dirname}/docs/swagger.yaml`,
 };
 
 SwaggerExpress.create(swaggerConfig, (err, middleware) => {
@@ -44,7 +40,7 @@ SwaggerExpress.create(swaggerConfig, (err, middleware) => {
   middleware.register(app);
   // install response validation listener (this will only be called if there actually are any errors or warnings)
   middleware.runner.on(
-    "responseValidationError",
+    "requestValidationError",
     function (validationResponse, request, response) {
       // log your validationResponse here...
       console.error(validationResponse.errors);
@@ -75,7 +71,7 @@ connect();
 //Setting up swagger docs
 import { serve, setup } from "swagger-ui-express";
 const YAML = require("yamljs");
-const swaggerDocument = YAML.load("./docs/swagger.yaml");
+const swaggerDocument = YAML.load("./api/swagger/swagger.yaml");
 import { userRouter, taskRouter } from "~/routes";
 app.use("/docs", serve, setup(swaggerDocument));
 app.use("/api/users", userRouter);

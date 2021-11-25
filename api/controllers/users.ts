@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { NextFunction, Response } from "express";
 import { Request, UserAttributes } from "~/types";
 import { models } from "~/models";
 
